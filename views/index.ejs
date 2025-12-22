@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador BCH - Blockchain Bitcoin Cash</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🔍 Explorador de la Blockchain Bitcoin Cash</h1>
+            <nav>
+                <a href="/">Inicio</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="search-section">
+            <h2>Buscar en la Blockchain</h2>
+            <form action="/search" method="POST" class="search-form">
+                <input 
+                    type="text" 
+                    name="query" 
+                    placeholder="Buscar bloque, transacción o dirección..."
+                    required
+                >
+                <button type="submit">Buscar</button>
+            </form>
+            <p class="search-help">
+                Ingrese un número de bloque, hash de bloque, hash de transacción o dirección BCH
+            </p>
+        </section>
+
+        <% if (error) { %>
+            <div class="error-message">
+                <%= error %>
+            </div>
+        <% } %>
+
+        <% if (stats) { %>
+            <section class="stats-section">
+                <h2>Estadísticas de la Blockchain</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Altura del Bloque</h3>
+                        <p class="stat-value"><%= stats.blocks.toLocaleString() %></p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Transacciones Totales</h3>
+                        <p class="stat-value"><%= stats.transactions.toLocaleString() %></p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Dificultad</h3>
+                        <p class="stat-value"><%= stats.difficulty.toLocaleString() %></p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Hash Rate</h3>
+                        <p class="stat-value"><%= (stats.hashrate_24h / 1000000000000000000).toFixed(2) %> EH/s</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Mejor Bloque</h3>
+                        <p class="stat-value">
+                            <a href="/block/<%= stats.best_block_height %>"><%= stats.best_block_height.toLocaleString() %></a>
+                        </p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Circulación</h3>
+                        <p class="stat-value"><%= (stats.circulation / 100000000).toFixed(2) %> BCH</p>
+                    </div>
+                </div>
+            </section>
+        <% } %>
+
+        <section class="info-section">
+            <h2>Acerca del Explorador</h2>
+            <p>
+                Este explorador de blockchain le permite buscar y visualizar información 
+                de la blockchain de Bitcoin Cash (BCH). Puede buscar bloques específicos, 
+                transacciones individuales o consultar el balance y historial de cualquier dirección.
+            </p>
+            <ul>
+                <li>🔗 <strong>Bloques:</strong> Ver detalles de bloques específicos por altura o hash</li>
+                <li>💸 <strong>Transacciones:</strong> Consultar información detallada de transacciones</li>
+                <li>👛 <strong>Direcciones:</strong> Ver balance e historial de transacciones de direcciones</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Explorador BCH - Datos proporcionados por Blockchair API</p>
+        </div>
+    </footer>
+</body>
+</html>

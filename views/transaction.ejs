@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transacción - Explorador BCH</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🔍 Explorador de la Blockchain Bitcoin Cash</h1>
+            <nav>
+                <a href="/">Inicio</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="search-section">
+            <form action="/search" method="POST" class="search-form">
+                <input 
+                    type="text" 
+                    name="query" 
+                    placeholder="Buscar bloque, transacción o dirección..."
+                    required
+                >
+                <button type="submit">Buscar</button>
+            </form>
+        </section>
+
+        <section class="detail-section">
+            <h2>💸 Detalles de la Transacción</h2>
+            
+            <div class="detail-card">
+                <div class="detail-row">
+                    <span class="detail-label">Hash:</span>
+                    <span class="detail-value hash"><%= transaction.hash %></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Bloque:</span>
+                    <span class="detail-value">
+                        <a href="/block/<%= transaction.block_id %>"><%= transaction.block_id.toLocaleString() %></a>
+                    </span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Tiempo:</span>
+                    <span class="detail-value"><%= new Date(transaction.time).toLocaleString('es-ES') %></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Tamaño:</span>
+                    <span class="detail-value"><%= transaction.size.toLocaleString() %> bytes</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Total Enviado:</span>
+                    <span class="detail-value"><%= (transaction.output_total / 100000000).toFixed(8) %> BCH</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Comisión:</span>
+                    <span class="detail-value"><%= (transaction.fee / 100000000).toFixed(8) %> BCH</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Confirmaciones:</span>
+                    <span class="detail-value"><%= transaction.is_coinbase ? 'Coinbase' : 'Confirmada' %></span>
+                </div>
+            </div>
+
+            <div class="tx-io-container">
+                <div class="tx-inputs">
+                    <h3>Entradas (<%= inputs.length %>)</h3>
+                    <% inputs.forEach(function(input) { %>
+                        <div class="io-item">
+                            <% if (input.recipient) { %>
+                                <div class="io-address">
+                                    <a href="/address/<%= input.recipient %>"><%= input.recipient %></a>
+                                </div>
+                            <% } else { %>
+                                <div class="io-address">Coinbase (Nueva Moneda)</div>
+                            <% } %>
+                            <div class="io-value">
+                                <%= (input.value / 100000000).toFixed(8) %> BCH
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+
+                <div class="tx-arrow">→</div>
+
+                <div class="tx-outputs">
+                    <h3>Salidas (<%= outputs.length %>)</h3>
+                    <% outputs.forEach(function(output) { %>
+                        <div class="io-item">
+                            <% if (output.recipient) { %>
+                                <div class="io-address">
+                                    <a href="/address/<%= output.recipient %>"><%= output.recipient %></a>
+                                </div>
+                            <% } else { %>
+                                <div class="io-address">Sin Destinatario</div>
+                            <% } %>
+                            <div class="io-value">
+                                <%= (output.value / 100000000).toFixed(8) %> BCH
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Explorador BCH - Datos proporcionados por Blockchair API</p>
+        </div>
+    </footer>
+</body>
+</html>

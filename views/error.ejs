@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Explorador BCH</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🔍 Explorador de la Blockchain Bitcoin Cash</h1>
+            <nav>
+                <a href="/">Inicio</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="search-section">
+            <form action="/search" method="POST" class="search-form">
+                <input 
+                    type="text" 
+                    name="query" 
+                    placeholder="Buscar bloque, transacción o dirección..."
+                    required
+                >
+                <button type="submit">Buscar</button>
+            </form>
+        </section>
+
+        <section class="error-section">
+            <div class="error-card">
+                <h2>❌ Error</h2>
+                <p class="error-message"><%= error %></p>
+                <% if (query) { %>
+                    <p>Consulta: <code><%= query %></code></p>
+                <% } %>
+                <a href="/" class="btn">Volver al Inicio</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Explorador BCH - Datos proporcionados por Blockchair API</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dirección - Explorador BCH</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🔍 Explorador de la Blockchain Bitcoin Cash</h1>
+            <nav>
+                <a href="/">Inicio</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="search-section">
+            <form action="/search" method="POST" class="search-form">
+                <input 
+                    type="text" 
+                    name="query" 
+                    placeholder="Buscar bloque, transacción o dirección..."
+                    required
+                >
+                <button type="submit">Buscar</button>
+            </form>
+        </section>
+
+        <section class="detail-section">
+            <h2>👛 Información de la Dirección</h2>
+            
+            <div class="detail-card">
+                <div class="detail-row">
+                    <span class="detail-label">Dirección:</span>
+                    <span class="detail-value hash"><%= address.address %></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Balance:</span>
+                    <span class="detail-value balance"><%= (address.balance / 100000000).toFixed(8) %> BCH</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Total Recibido:</span>
+                    <span class="detail-value"><%= (address.received / 100000000).toFixed(8) %> BCH</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Total Enviado:</span>
+                    <span class="detail-value"><%= (address.spent / 100000000).toFixed(8) %> BCH</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Transacciones:</span>
+                    <span class="detail-value"><%= address.transaction_count.toLocaleString() %></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Primera Transacción:</span>
+                    <span class="detail-value">
+                        <% if (address.first_seen_receiving) { %>
+                            <%= new Date(address.first_seen_receiving).toLocaleString('es-ES') %>
+                        <% } else { %>
+                            N/A
+                        <% } %>
+                    </span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Última Transacción:</span>
+                    <span class="detail-value">
+                        <% if (address.last_seen_receiving) { %>
+                            <%= new Date(address.last_seen_receiving).toLocaleString('es-ES') %>
+                        <% } else { %>
+                            N/A
+                        <% } %>
+                    </span>
+                </div>
+            </div>
+
+            <% if (transactions && transactions.length > 0) { %>
+                <h3>Transacciones Recientes (<%= Math.min(transactions.length, 10) %>)</h3>
+                <div class="transactions-list">
+                    <% transactions.slice(0, 10).forEach(function(tx) { %>
+                        <div class="transaction-item">
+                            <div class="tx-hash">
+                                <a href="/transaction/<%= tx.hash %>"><%= tx.hash %></a>
+                            </div>
+                            <div class="tx-info">
+                                <span><%= new Date(tx.time).toLocaleDateString('es-ES') %></span>
+                                <span><%= (tx.balance_change / 100000000).toFixed(8) %> BCH</span>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+                <% if (transactions.length > 10) { %>
+                    <p class="more-info">Mostrando las primeras 10 de <%= transactions.length %> transacciones</p>
+                <% } %>
+            <% } else { %>
+                <p>No hay transacciones para esta dirección.</p>
+            <% } %>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Explorador BCH - Datos proporcionados por Blockchair API</p>
+        </div>
+    </footer>
+</body>
+</html>

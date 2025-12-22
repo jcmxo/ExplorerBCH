@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloque <%= block.id %> - Explorador BCH</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🔍 Explorador de la Blockchain Bitcoin Cash</h1>
+            <nav>
+                <a href="/">Inicio</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="search-section">
+            <form action="/search" method="POST" class="search-form">
+                <input 
+                    type="text" 
+                    name="query" 
+                    placeholder="Buscar bloque, transacción o dirección..."
+                    required
+                >
+                <button type="submit">Buscar</button>
+            </form>
+        </section>
+
+        <section class="detail-section">
+            <h2>📦 Detalles del Bloque #<%= block.id %></h2>
+            
+            <div class="detail-card">
+                <div class="detail-row">
+                    <span class="detail-label">Altura:</span>
+                    <span class="detail-value"><%= block.id.toLocaleString() %></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Hash:</span>
+                    <span class="detail-value hash"><%= block.hash %></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Tiempo:</span>
+                    <span class="detail-value"><%= new Date(block.time).toLocaleString('es-ES') %></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Transacciones:</span>
+                    <span class="detail-value"><%= block.transaction_count.toLocaleString() %></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Tamaño:</span>
+                    <span class="detail-value"><%= (block.size / 1024).toFixed(2) %> KB</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Recompensa:</span>
+                    <span class="detail-value"><%= (block.generation / 100000000).toFixed(8) %> BCH</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Dificultad:</span>
+                    <span class="detail-value"><%= block.difficulty.toLocaleString() %></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Nonce:</span>
+                    <span class="detail-value"><%= block.nonce %></span>
+                </div>
+                <% if (block.previous_block_hash) { %>
+                <div class="detail-row">
+                    <span class="detail-label">Bloque Anterior:</span>
+                    <span class="detail-value">
+                        <a href="/block/<%= block.id - 1 %>"><%= block.id - 1 %></a>
+                    </span>
+                </div>
+                <% } %>
+                <div class="detail-row">
+                    <span class="detail-label">Siguiente Bloque:</span>
+                    <span class="detail-value">
+                        <a href="/block/<%= block.id + 1 %>"><%= block.id + 1 %></a>
+                    </span>
+                </div>
+            </div>
+
+            <% if (transactions && transactions.length > 0) { %>
+                <h3>Transacciones en este Bloque (<%= transactions.length %>)</h3>
+                <div class="transactions-list">
+                    <% transactions.forEach(function(tx) { %>
+                        <div class="transaction-item">
+                            <div class="tx-hash">
+                                <a href="/transaction/<%= tx.hash %>"><%= tx.hash %></a>
+                            </div>
+                            <div class="tx-info">
+                                <span><%= (tx.output_total / 100000000).toFixed(8) %> BCH</span>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Explorador BCH - Datos proporcionados por Blockchair API</p>
+        </div>
+    </footer>
+</body>
+</html>
