@@ -1,0 +1,36 @@
+{
+  "name": "ethereum-event-explorer",
+  "version": "1.0.0",
+  "description": "Ethereum event explorer with RabbitMQ workers and PostgreSQL",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "reset": "tsx scripts/reset-system.ts",
+    "start:producer": "tsx scripts/start-producer.ts",
+    "start:consumer": "tsx scripts/start-consumer.ts",
+    "add-rpc": "tsx scripts/add-rpc.ts",
+    "init-rpcs": "tsx scripts/init-rpcs.ts",
+    "process-token": "tsx scripts/process-token.ts",
+    "test": "jest"
+  },
+  "keywords": ["ethereum", "events", "blockchain", "rabbitmq", "postgresql"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ethers": "^6.13.0",
+    "pg": "^8.11.3",
+    "amqplib": "^0.10.3",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.5",
+    "@types/pg": "^8.10.9",
+    "@types/amqplib": "^0.10.4",
+    "@types/jest": "^29.5.11",
+    "typescript": "^5.3.3",
+    "tsx": "^4.7.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1"
+  }
+}
+

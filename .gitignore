@@ -1,0 +1,32 @@
+# Node
+node_modules/
+dist/
+npm-debug.log*
+yarn-error.log*
+
+# Environment
+.env
+.env.*
+
+# Docker
+docker-data/
+postgres-data/
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.cursor/
+.idea/
+
+# Tests
+coverage/
+
+# Build artifacts
+*.tsbuildinfo
