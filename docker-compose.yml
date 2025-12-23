@@ -53,10 +53,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
-    volumes:
-      - .:/app
-      - /app/node_modules
-    command: tail -f /dev/null
+    ports: 
+      - "4000:3000"
 
 volumes:
   postgres_data:
