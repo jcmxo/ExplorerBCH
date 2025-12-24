@@ -4,7 +4,7 @@ import cors, { CorsOptions } from 'cors';
 
 import { getHealth } from './routes/health';
 import { getDashboard } from './routes/dashboard';
-import { getRpcs } from './routes/rpcs';
+import { getRpcs, postRpcs } from './routes/rpcs';
 import { getEvents } from './routes/events';
 import { db } from './db';
 
@@ -17,9 +17,7 @@ const PORT = 3000;
 // ======================
 // CORS CONFIGURATION
 // ======================
-const allowedOrigins = [
-  'http://localhost:3000', // Next.js dev
-];
+const allowedOrigins = process.env.CORS_ORIGINS?.split(',') ?? [];
 
 const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
@@ -52,6 +50,7 @@ app.use(express.json());
 app.get('/health', getHealth);
 app.get('/dashboard', getDashboard);
 app.get('/rpcs', getRpcs);
+app.post('/rpcs', postRpcs);
 app.get('/events', getEvents);
 
 // ======================

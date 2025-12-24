@@ -53,8 +53,28 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+      CORS_ORIGINS: http://localhost:3000,http://frontend:3000
     ports: 
       - "4000:3000"
+
+  frontend:
+    image: ethereum-frontend-dev
+    container_name: ethereum-frontend
+    working_dir: /app
+    command: npm run dev
+    environment:
+      # Docker service names (e.g., 'backend') are only accessible within the Docker network.
+      # Browser code runs in the user's browser, not in Docker, so it must use localhost.
+      # The backend container port 3000 is mapped to host port 4000.
+      NEXT_PUBLIC_API_URL: http://localhost:4000
+    volumes:
+      - ./ethereum-event-explorer-ui:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:
